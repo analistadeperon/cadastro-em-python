@@ -1,0 +1,41 @@
+  def cadastraclientes(self):
+        nome=self.nome.get()
+        telefone=self.fone.get()
+        endereco=self.endereco.get()
+        comp=self.comp.get(0.0,END)
+        try:
+            cur.execute("INSERT INTO clientes VALUES(?,?,?,?)",
+                    (nome,telefone,endereco,comp))
+        except:
+            tkMessageBox.showinfo('Aviso!','Telefone ja cadastrado')  
+        con.commit()
+        self.fone.delete(0,END)
+        
+
+    def limpaclientes(self):
+        self.nome.delete(0,END)
+        self.fone.delete(0,END)
+        self.endereco.delete(0,END)
+        self.comp.delete(0.0,END)
+        
+    def mostraclientes(self):
+        self.mostra1.delete(0.0,END)
+        fonec = self.fonec.get()
+        cur.execute("SELECT * FROM clientes WHERE telefone = '%s'" %fonec)
+        consulta = cur.fetchall()
+        for i in consulta:
+            self.mostra1.insert(END,'''Nome:{}
+End:{}
+Complemento:{}'''.format(i[0],i[2],i[3]))
+    
+# Função q aceita eventos do teclado, apenas chama a função mostraclientes quando a tecla Enter é pressionada
+    def mostraclientes_a(self,event):
+        self.mostraclientes()
+        
+                                           
+        
+root = Tk()
+root.title("Cadastro_C")
+root.geometry("1366x768")
+main(root)
+root.mainloop()
